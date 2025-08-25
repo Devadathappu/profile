@@ -224,16 +224,21 @@
             justify-content: center;
             align-items: center;
         }
-
         .terminal {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
+            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 0;
             font-family: 'Courier New', monospace;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 0 1px rgba(0, 255, 136, 0.1);
             position: relative;
             overflow: hidden;
+            width: 500px;
+            height: 400px;
+            backdrop-filter: blur(10px);
         }
 
         .terminal::before {
@@ -242,48 +247,249 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 30px;
-            background: var(--secondary-bg);
-            border-bottom: 1px solid var(--border-color);
+            height: 40px;
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            border-bottom: 1px solid #333;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .terminal::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 153, 255, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            border-radius: 16px;
+        }
+
+        .terminal-header {
+            position: relative;
+            z-index: 2;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            justify-content: space-between;
         }
 
         .terminal-dots {
-            position: absolute;
-            top: 10px;
-            left: 15px;
             display: flex;
             gap: 8px;
         }
 
         .dot {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
+            position: relative;
+            transition: all 0.3s ease;
         }
 
-        .dot.red { background: #ff5f56; }
-        .dot.yellow { background: #ffbd2e; }
-        .dot.green { background: #27ca3f; }
+        .dot::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+
+        .dot.red { 
+            background: linear-gradient(145deg, #ff6b6b, #ff5252);
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(255, 82, 82, 0.3);
+        }
+        .dot.red::before { background: #ff3030; }
+
+        .dot.yellow { 
+            background: linear-gradient(145deg, #ffd93d, #ffcd02);
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(255, 205, 2, 0.3);
+        }
+        .dot.yellow::before { background: #ffb700; }
+
+        .dot.green { 
+            background: linear-gradient(145deg, #6bcf7f, #4caf50);
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(76, 175, 80, 0.3);
+        }
+        .dot.green::before { background: #2e7d32; }
+
+        .terminal-title {
+            color: #888;
+            font-size: 12px;
+            font-weight: 500;
+        }
 
         .terminal-content {
-            margin-top: 30px;
-            color: var(--accent-color);
-            font-size: 0.9rem;
+            padding: 20px;
+            height: calc(100% - 40px);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
         }
 
-        .typing-text {
-            border-right: 2px solid var(--accent-color);
-            animation: typing 3s steps(30) infinite, blink 1s infinite;
+        .command-line {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .prompt {
+            color: #00ff88;
+            margin-right: 8px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            flex-shrink: 0;
+        }
+
+        .command {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .output {
+            color: #b0b0b0;
+            margin-left: 0;
+            margin-bottom: 8px;
+            opacity: 0;
+            transform: translateY(5px);
+            animation: fadeInUp 0.4s ease forwards;
+        }
+
+        .success {
+            color: #00ff88;
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(0, 255, 136, 0.2);
+        }
+
+        .warning {
+            color: #ffaa00;
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(255, 170, 0, 0.2);
+        }
+
+        .error {
+            color: #ff4444;
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(255, 68, 68, 0.2);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: #00ff88;
+            margin-left: 2px;
+            animation: blink 1.2s infinite;
+            box-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+        }
+
+        .typing-animation {
+            overflow: hidden;
+            border-right: 2px solid #00ff88;
+            white-space: nowrap;
+            animation: typing 2s steps(40) forwards;
+            box-shadow: 2px 0 0 rgba(0, 255, 136, 0.3);
+        }
+        .matrix-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            opacity: 0.1;
+            font-size: 10px;
+            overflow: hidden;
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            animation: matrixFall linear infinite;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes typing {
-            0%, 50% { width: 0; }
-            100% { width: 100%; }
+            from { width: 0; }
+            to { width: 100%; }
         }
 
         @keyframes blink {
-            0%, 50% { border-color: var(--accent-color); }
-            51%, 100% { border-color: transparent; }
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        @keyframes matrixFall {
+            to {
+                transform: translateY(500px);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(0, 255, 136, 0.4); }
+        }
+
+        .terminal:hover {
+            animation: glow 2s infinite;
+        }
+
+        .scanning-bar {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 255, 136, 0.1);
+            margin: 8px 0;
+            border-radius: 1px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .scanning-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #00ff88, transparent);
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .terminal {
+                width: 90vw;
+                max-width: 400px;
+                height: 350px;
+            }
+            
+            .terminal-content {
+                padding: 15px;
+                font-size: 13px;
+            }
         }
 
         /* Section Styles */
@@ -755,27 +961,23 @@
                 </div>
             </div>
             <div class="hero-visual">
-                <div class="terminal">
-                    <div class="terminal-dots">
-                        <div class="dot red"></div>
-                        <div class="dot yellow"></div>
-                        <div class="dot green"></div>
-                    </div>
-                    <div class="terminal-content">
-                        <div class="typing-text">$ nmap -sS -O target.com<br>
-Starting Nmap scan...<br>
-Host is up (0.013s latency)<br>
-22/tcp   open   ssh<br>
-80/tcp   open   http<br>
-443/tcp  open   https<br>
-<br>
-$ python exploit.py<br>
-[+] Vulnerability found!<br>
-[+] Exploit successful</div>
-                    </div>
+        <div class="terminal">
+            <div class="matrix-rain" id="matrixRain"></div>
+            
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
                 </div>
+                <div class="terminal-title">cybersec-lab</div>
+            </div>
+            
+            <div class="terminal-content" id="terminalContent">
+                <!-- Commands will be added dynamically -->
             </div>
         </div>
+    </div>
     </section>
 
     <!-- Skills Section -->
@@ -948,9 +1150,15 @@ $ python exploit.py<br>
                     <div class="achievement-icon">
                         <i class="fas fa-shield-virus"></i>
                     </div>
-                    <div class="achievement-title">DHS Recognition</div>
-                    <div class="achievement-org">U.S. Department of Homeland Security</div>
+                    <div class="achievement-title">WHO Recognition</div>
+                    <div class="achievement-org">World Health Organization Research Program</div>
                     <p>Acknowledged for cybersecurity research and vulnerability disclosure</p>
+                    <div class="achievement-links">
+                        <a href="VDP Letter of Appreciation -2025 Fletcher Signed.pdf" target="_blank" class="achievement-link">
+                            <i class="fas fa-certificate"></i>
+                            Hall of Fame
+                        </a>
+                    </div>
                 </div>
                 <div class="achievement-card">
                     <div class="achievement-icon">
@@ -960,13 +1168,9 @@ $ python exploit.py<br>
                     <div class="achievement-org">EC-Council</div>
                     <p>Certified Ethical Hacker with advanced penetration testing skills</p>
                     <div class="achievement-links">
-                        <a href="CEH_2E345519D3F7.png" target="_blank" class="achievement-link">
+                        <a href="VDP Letter of Appreciation -2025 Fletcher Signed.pdf" target="_blank" class="achievement-link">
                             <i class="fas fa-certificate"></i>
-                            Badge
-                        </a>
-                        <a href="ECC-CEH-Certificate.pdf" target="_blank" class="achievement-link">
-                            <i class="fas fa-certificate"></i>
-                            Certificate
+                            Recognition Letter
                         </a>
                     </div>
                 </div>
@@ -978,9 +1182,9 @@ $ python exploit.py<br>
                     <div class="achievement-org">Techbyheart Academy</div>
                     <p>Specialized training in Security Operations Center procedures and threat hunting</p>
                     <div class="achievement-links">
-                         <a href="Mr. DEVADATH A [ASA] .pdf" target="_blank" class="achievement-link">
+                        <a href="VDP Letter of Appreciation -2025 Fletcher Signed.pdf" target="_blank" class="achievement-link">
                             <i class="fas fa-certificate"></i>
-                            Certificate
+                            Recognition Letter
                         </a>
                     </div>
                 </div>
@@ -992,9 +1196,9 @@ $ python exploit.py<br>
                     <div class="achievement-org">Professional Certificate</div>
                     <p>Comprehensive cybersecurity fundamentals and practical skills certification</p>
                     <div class="achievement-links">
-                        <a href="Mr. DEVADATH A [CST] .pdf" target="_blank" class="achievement-link">
+                        <a href="VDP Letter of Appreciation -2025 Fletcher Signed.pdf" target="_blank" class="achievement-link">
                             <i class="fas fa-certificate"></i>
-                            Certificate
+                            Recognition Letter
                         </a>
                     </div>
                 </div>
@@ -1229,6 +1433,200 @@ $ python exploit.py<br>
 
         // Create particles periodically
         setInterval(createParticle, 200);
+
+        class TerminalAnimator {
+            constructor() {
+                this.terminalContent = document.getElementById('terminalContent');
+                this.currentScenario = 0;
+                this.isAnimating = false;
+                
+                this.scenarios = [
+                    {
+                        title: "Network Reconnaissance",
+                        commands: [
+                            { type: 'command', text: 'nmap -sS -O target.com' },
+                            { type: 'output', text: 'Starting Nmap 7.94 ( https://nmap.org )', delay: 800 },
+                            { type: 'scanning', delay: 1200 },
+                            { type: 'output', text: 'Nmap scan report for target.com', delay: 600 },
+                            { type: 'output', text: 'Host is up (0.013s latency)', delay: 400 },
+                            { type: 'success', text: '22/tcp    open   ssh     OpenSSH 8.2', delay: 300 },
+                            { type: 'success', text: '80/tcp    open   http    Apache 2.4.41', delay: 300 },
+                            { type: 'success', text: '443/tcp   open   https   Apache 2.4.41', delay: 300 }
+                        ]
+                    },
+                    {
+                        title: "Vulnerability Assessment",
+                        commands: [
+                            { type: 'command', text: 'python3 vuln_scanner.py --target webapp.com' },
+                            { type: 'output', text: '[*] Initializing vulnerability scanner...', delay: 600 },
+                            { type: 'scanning', delay: 1000 },
+                            { type: 'warning', text: '[!] SQL Injection detected in login form', delay: 800 },
+                            { type: 'warning', text: '[!] XSS vulnerability found in search field', delay: 600 },
+                            { type: 'error', text: '[!] CRITICAL: Authentication bypass possible', delay: 700 },
+                            { type: 'success', text: '[+] Generating detailed report...', delay: 500 },
+                            { type: 'success', text: '[+] Scan completed. 3 vulnerabilities found', delay: 600 }
+                        ]
+                    },
+                    {
+                        title: "SIEM Threat Detection",
+                        commands: [
+                            { type: 'command', text: 'splunk search "failed login" | stats count by src_ip' },
+                            { type: 'output', text: 'Searching logs for failed authentication attempts...', delay: 700 },
+                            { type: 'scanning', delay: 1200 },
+                            { type: 'warning', text: '192.168.1.100: 247 failed attempts', delay: 500 },
+                            { type: 'warning', text: '10.0.0.55: 156 failed attempts', delay: 400 },
+                            { type: 'error', text: '[ALERT] Brute force attack detected!', delay: 600 },
+                            { type: 'success', text: '[+] Blocking malicious IPs...', delay: 500 },
+                            { type: 'success', text: '[+] Incident response initiated', delay: 400 }
+                        ]
+                    },
+                    {
+                        title: "Penetration Testing",
+                        commands: [
+                            { type: 'command', text: 'msfconsole -q' },
+                            { type: 'output', text: 'Starting Metasploit Framework...', delay: 800 },
+                            { type: 'command', text: 'use exploit/multi/handler' },
+                            { type: 'success', text: '[+] Exploit module loaded', delay: 600 },
+                            { type: 'command', text: 'set payload windows/meterpreter/reverse_tcp' },
+                            { type: 'command', text: 'exploit' },
+                            { type: 'scanning', delay: 1000 },
+                            { type: 'success', text: '[+] Exploit completed successfully!', delay: 800 },
+                            { type: 'success', text: '[+] Meterpreter session opened', delay: 500 }
+                        ]
+                    }
+                ];
+                
+                this.init();
+            }
+            
+            init() {
+                this.createMatrixRain();
+                this.startAnimation();
+            }
+            
+            createMatrixRain() {
+                const matrixRain = document.getElementById('matrixRain');
+                const chars = '01アカサタナハマヤラワガザダバパイキシチニヒミリヰギジヂビピウクスツヌフムユルグズヅブプエケセテネヘメレヱゲゼデベペオコソトノホモヨロヲゴゾドボポヴッン';
+                
+                for (let i = 0; i < 15; i++) {
+                    const column = document.createElement('div');
+                    column.className = 'matrix-column';
+                    column.style.left = Math.random() * 100 + '%';
+                    column.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    column.style.animationDelay = Math.random() * 2 + 's';
+                    
+                    let columnText = '';
+                    for (let j = 0; j < 20; j++) {
+                        columnText += chars[Math.floor(Math.random() * chars.length)] + '<br>';
+                    }
+                    column.innerHTML = columnText;
+                    
+                    matrixRain.appendChild(column);
+                }
+            }
+            
+            async startAnimation() {
+                while (true) {
+                    if (!this.isAnimating) {
+                        await this.runScenario(this.scenarios[this.currentScenario]);
+                        this.currentScenario = (this.currentScenario + 1) % this.scenarios.length;
+                        await this.delay(3000); // Pause between scenarios
+                    }
+                    await this.delay(100);
+                }
+            }
+            
+            async runScenario(scenario) {
+                this.isAnimating = true;
+                this.terminalContent.innerHTML = '';
+                
+                for (const cmd of scenario.commands) {
+                    await this.delay(cmd.delay || 500);
+                    
+                    if (cmd.type === 'command') {
+                        await this.typeCommand(cmd.text);
+                    } else if (cmd.type === 'scanning') {
+                        this.addScanningBar();
+                        await this.delay(1500);
+                    } else {
+                        this.addOutput(cmd.text, cmd.type);
+                    }
+                }
+                
+                this.isAnimating = false;
+            }
+            
+            async typeCommand(text) {
+                const line = document.createElement('div');
+                line.className = 'command-line';
+                
+                const prompt = document.createElement('span');
+                prompt.className = 'prompt';
+                prompt.textContent = 'root@kali:~$ ';
+                
+                const command = document.createElement('span');
+                command.className = 'command typing-animation';
+                
+                line.appendChild(prompt);
+                line.appendChild(command);
+                this.terminalContent.appendChild(line);
+                
+                // Animate typing
+                for (let i = 0; i <= text.length; i++) {
+                    command.textContent = text.substring(0, i);
+                    await this.delay(50);
+                }
+                
+                command.classList.remove('typing-animation');
+                this.scrollToBottom();
+            }
+            
+            addOutput(text, type = 'output') {
+                const output = document.createElement('div');
+                output.className = `output ${type}`;
+                output.textContent = text;
+                this.terminalContent.appendChild(output);
+                this.scrollToBottom();
+            }
+            
+            addScanningBar() {
+                const scanBar = document.createElement('div');
+                scanBar.className = 'scanning-bar';
+                this.terminalContent.appendChild(scanBar);
+                this.scrollToBottom();
+            }
+            
+            scrollToBottom() {
+                this.terminalContent.scrollTop = this.terminalContent.scrollHeight;
+            }
+            
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+        
+        // Add hover effects for terminal dots
+        document.addEventListener('DOMContentLoaded', () => {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach(dot => {
+                dot.addEventListener('mouseenter', () => {
+                    dot.style.transform = 'scale(1.2)';
+                    dot.style.boxShadow = dot.classList.contains('red') ? 
+                        '0 0 15px rgba(255, 82, 82, 0.8)' : 
+                        dot.classList.contains('yellow') ? 
+                        '0 0 15px rgba(255, 205, 2, 0.8)' : 
+                        '0 0 15px rgba(76, 175, 80, 0.8)';
+                });
+                
+                dot.addEventListener('mouseleave', () => {
+                    dot.style.transform = 'scale(1)';
+                    dot.style.boxShadow = '';
+                });
+            });
+            
+            // Initialize terminal animation
+            new TerminalAnimator();
+        });
     </script>
 </body>
 </html>

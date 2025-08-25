@@ -438,6 +438,33 @@
             color: var(--accent-color);
         }
 
+        /* Project and Achievement Links */
+.project-links, .achievement-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.project-link, .achievement-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 255, 136, 0.1);
+    color: var(--accent-color);
+    text-decoration: none;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.project-link:hover, .achievement-link:hover {
+    background: rgba(0, 255, 136, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+}
         /* Achievements Section */
         .achievements-grid {
             display: grid;
@@ -743,6 +770,12 @@ $ python exploit.py<br>
                             <li>Discovered authentication bypass affecting 500+ accounts</li>
                             <li>Improved overall portal security posture</li>
                         </ul>
+                        <div class="project-links">
+                            <a href="" target="_blank" class="project-link">
+                                <i class="fas fa-certificate"></i>
+                                Recognition Letter
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="project-card">
@@ -758,6 +791,16 @@ $ python exploit.py<br>
                             <li>Built gamified learning environment</li>
                             <li>Enabled safe exploitation training</li>
                         </ul>
+                        <div class="project-links">
+                            <a href="https://github.com/Devadathappu/[YOUR-REPO]/blob/main/CTF_Demo_Video.mp4" target="_blank" class="project-link">
+                                <i class="fas fa-play-circle"></i>
+                                Demo Video
+                            </a>
+                            <a href="https://github.com/Devadathappu/[YOUR-CTF-REPO]" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                                Source Code
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="project-card">
@@ -803,13 +846,19 @@ $ python exploit.py<br>
             </div>
             <div class="achievements-grid">
                 <div class="achievement-card">
-                    <div class="achievement-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <div class="achievement-title">NASA Recognition</div>
-                    <div class="achievement-org">Vulnerability Disclosure Program</div>
-                    <p>Acknowledged for responsible vulnerability disclosure through Bugcrowd platform</p>
-                </div>
+    <div class="achievement-icon">
+        <i class="fas fa-rocket"></i>
+    </div>
+    <div class="achievement-title">NASA Recognition</div>
+    <div class="achievement-org">Vulnerability Disclosure Program</div>
+    <p>Acknowledged for responsible vulnerability disclosure through Bugcrowd platform</p>
+    <div class="achievement-links">
+        <a href="https://github.com/Devadathappu/[YOUR-REPO]/blob/main/NASA_Recognition_Letter.pdf" target="_blank" class="achievement-link">
+            <i class="fas fa-certificate"></i>
+            Recognition Letter
+        </a>
+    </div>
+</div>
                 <div class="achievement-card">
                     <div class="achievement-icon">
                         <i class="fas fa-robot"></i>

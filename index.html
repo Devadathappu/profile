@@ -438,33 +438,97 @@
             color: var(--accent-color);
         }
 
-        /* Project and Achievement Links */
-.project-links, .achievement-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    flex-wrap: wrap;
-}
+        /* Enhanced Project and Achievement Links */
+        .project-links, .achievement-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
 
-.project-link, .achievement-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: rgba(0, 255, 136, 0.1);
-    color: var(--accent-color);
-    text-decoration: none;
-    border-radius: 6px;
-    border: 1px solid rgba(0, 255, 136, 0.3);
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
+        .project-link, .achievement-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.08) 0%, rgba(0, 153, 255, 0.08) 100%);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
 
-.project-link:hover, .achievement-link:hover {
-    background: rgba(0, 255, 136, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
-}
+        .project-link::before, .achievement-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .project-link:hover::before, .achievement-link:hover::before {
+            left: 100%;
+        }
+
+        .project-link:hover, .achievement-link:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 153, 255, 0.15) 100%);
+            border-color: rgba(0, 255, 136, 0.4);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.15), 0 4px 10px rgba(0, 0, 0, 0.3);
+            color: var(--accent-color);
+        }
+
+        .project-link i, .achievement-link i {
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .project-link:hover i, .achievement-link:hover i {
+            transform: scale(1.1);
+        }
+
+        /* Special styling for different link types */
+        .project-link[href*=".jpg"], .project-link[href*=".jpeg"], .project-link[href*=".png"], .achievement-link[href*=".pdf"] {
+            background: linear-gradient(135deg, rgba(255, 0, 102, 0.08) 0%, rgba(255, 153, 0, 0.08) 100%);
+        }
+
+        .project-link[href*=".jpg"]:hover, .project-link[href*=".jpeg"]:hover, .project-link[href*=".png"]:hover, .achievement-link[href*=".pdf"]:hover {
+            background: linear-gradient(135deg, rgba(255, 0, 102, 0.15) 0%, rgba(255, 153, 0, 0.15) 100%);
+            border-color: rgba(255, 0, 102, 0.4);
+            color: #ff6699;
+            box-shadow: 0 8px 25px rgba(255, 0, 102, 0.15), 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-link[href*=".mp4"], .project-link[href*=".mov"] {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.08) 0%, rgba(75, 0, 130, 0.08) 100%);
+        }
+
+        .project-link[href*=".mp4"]:hover, .project-link[href*=".mov"]:hover {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.15) 0%, rgba(75, 0, 130, 0.15) 100%);
+            border-color: rgba(138, 43, 226, 0.4);
+            color: #da70d6;
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.15), 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-link[href*="github"], .project-link[href*="gitlab"] {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(100, 100, 100, 0.05) 100%);
+        }
+
+        .project-link[href*="github"]:hover, .project-link[href*="gitlab"]:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(100, 100, 100, 0.1) 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1), 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
         /* Achievements Section */
         .achievements-grid {
             display: grid;
@@ -618,9 +682,26 @@
                 grid-template-columns: 1fr;
             }
 
+            .project-links, .achievement-links {
+                justify-content: center;
+            }
+
             .footer-content {
                 flex-direction: column;
                 gap: 1rem;
+                text-align: center;
+            }
+        }
+
+        /* Additional mobile improvements for links */
+        @media (max-width: 480px) {
+            .project-links, .achievement-links {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .project-link, .achievement-link {
+                justify-content: center;
                 text-align: center;
             }
         }
@@ -765,27 +846,6 @@ $ python exploit.py<br>
                     <div class="project-content">
                         <p class="project-description">Comprehensive infrastructure security assessment for LBS College of Engineering, identifying critical vulnerabilities and implementing remediation strategies.</p>
                         <ul class="project-highlights">
-                            <li>Identified 5+ critical vulnerabilities using Nessus Professional</li>
-                            <li>Achieved 95% remediation rate within 6 days</li>
-                            <li>Discovered authentication bypass affecting 500+ accounts</li>
-                            <li>Improved overall portal security posture</li>
-                        </ul>
-                        <div class="project-links">
-                            <a href="1000087284.jpg" target="_blank" class="project-link">
-                                <i class="fas fa-certificate"></i>
-                                Recognition Letter
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-title">CTF Platform Development</div>
-                        <div class="project-tech">Web Security | Lab Design</div>
-                    </div>
-                    <div class="project-content">
-                        <p class="project-description">Designed and developed a comprehensive Capture The Flag platform with vulnerable labs for hands-on cybersecurity training.</p>
-                        <ul class="project-highlights">
                             <li>Created 8+ vulnerable labs covering OWASP Top 10</li>
                             <li>Implemented SQLi, XSS, File Upload vulnerabilities</li>
                             <li>Built gamified learning environment</li>
@@ -846,19 +906,19 @@ $ python exploit.py<br>
             </div>
             <div class="achievements-grid">
                 <div class="achievement-card">
-    <div class="achievement-icon">
-        <i class="fas fa-rocket"></i>
-    </div>
-    <div class="achievement-title">NASA Recognition</div>
-    <div class="achievement-org">Vulnerability Disclosure Program</div>
-    <p>Acknowledged for responsible vulnerability disclosure through Bugcrowd platform</p>
-    <div class="achievement-links">
-        <a href="VDP Letter of Appreciation -2025 Fletcher Signed.pdf" target="_blank" class="achievement-link">
-            <i class="fas fa-certificate"></i>
-            Recognition Letter
-        </a>
-    </div>
-</div>
+                    <div class="achievement-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="achievement-title">NASA Recognition</div>
+                    <div class="achievement-org">Vulnerability Disclosure Program</div>
+                    <p>Acknowledged for responsible vulnerability disclosure through Bugcrowd platform</p>
+                    <div class="achievement-links">
+                        <a href="VDP Letter of Appreciation -2025 Fletcher Signed.pdf" target="_blank" class="achievement-link">
+                            <i class="fas fa-certificate"></i>
+                            Recognition Letter
+                        </a>
+                    </div>
+                </div>
                 <div class="achievement-card">
                     <div class="achievement-icon">
                         <i class="fas fa-robot"></i>
@@ -1117,20 +1177,18 @@ $ python exploit.py<br>
             
             animate();
         }
+        
         function downloadResume() {
-    const resumeUrl = 'DEVADATH_A_CYBERSECURITY_ANALYST.pdf'; // Update with your actual file path
-    const link = document.createElement('a');
-    link.href = resumeUrl;
-    link.download = 'DEVADATH_A_CYBERSECURITY_ANALYST.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
+            const resumeUrl = 'DEVADATH_A_CYBERSECURITY_ANALYST.pdf'; // Update with your actual file path
+            const link = document.createElement('a');
+            link.href = resumeUrl;
+            link.download = 'DEVADATH_A_CYBERSECURITY_ANALYST.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
 
         // Create particles periodically
         setInterval(createParticle, 200);
     </script>
 </body>
-</html>
-
-
